@@ -4,8 +4,8 @@
 Автоматизировать часть проверок регресса с помощью Selenium.
 
 ### ⚙️ Используемый стек:
-| Python | PyCharm | Git | Selenium | Requests | Allure Report | Gitlab CI |
-|--------|---------|-----|--------|----------|---------------|-----------|
+| Python | PyCharm | Git | Selenium | Allure Report | Gitlab CI |
+|--------|---------|-----|----------|---------------|-----------|
 | <img height="50" src="media/python.png" width="50"/>  | <img height="50" src="media/pycharm.png" width="50"/>  |<img height="60" src="media/git.png" width="60"/>|<img height="55" src="media/selenium.png" width="55"/> | <img height="70" src="media/allurereport.png" width="70"/> | <img height="60" src="media/gitlab.png" width="60"/>
 
 ### 📄 Тест-кейсы, которые автоматизировали (е2е-тесты)
