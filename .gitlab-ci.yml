@@ -1,0 +1,75 @@
+stages:
+  - linter
+  - tests
+
+flake8:
+  stage: linter
+  image: python:3.12
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE =="merge_request_event"'
+
+  before_script:
+    - python --version
+    - pip install --upgrade pip
+    - pip install flake8
+
+  script:
+    - echo "Запуск flake8"
+    - flake8 .
+
+
+pylint:
+  stage: linter
+  image: python:3.12
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE =="merge_request_event"'
+
+  before_script:
+    - python --version
+    - pip install --upgrade pip
+    - pip install pylint
+
+  script:
+    - echo "Запуск pylint"
+    - pylint .
+
+tests:
+  stage: tests
+  image: python:3.12
+  rules:
+    - when: always
+
+  before_script:
+    - echo "Установка пакетов"
+    - apt-get update -y
+
+    - apt-get install -y --no-install-recommends default-jre-headless nodejs npm chromium
+    - npm install -g allure --unsafe-perm=true
+    - allure --version
+
+    - echo "Установка зависимостей"
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+
+  script:
+    - |
+      set +e
+      echo "Запуск тестов"
+      pytest
+
+      status=$?
+      echo "Pytest exit code $status"
+
+      echo "Генерация отчёта"
+      allure awesome allure-results --single-file --output allure-report
+
+      exit $status
+
+  artifacts:
+    when: always
+    paths:
+      - allure-results
+      - allure-report
+    expire_in: 7 days
